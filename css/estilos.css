@@ -1,0 +1,134 @@
+:root {
+    --color-fondo: #f5f6f8;
+    --color-oscuro: #1e1f24;
+    --color-acento: #d72638;
+    --color-acento-hover: #b71e2e;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-oscuro);
+}
+
+.navbar,
+.pie-pagina {
+    background-color: var(--color-oscuro);
+    color: #fff;
+}
+
+.texto-acento,
+.navbar .nav-link.active {
+    color: var(--color-acento);
+}
+
+.navbar .nav-link.active {
+    border-bottom: 2px solid var(--color-acento);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--color-acento);
+    --bs-btn-border-color: var(--color-acento);
+    --bs-btn-hover-bg: var(--color-acento-hover);
+    --bs-btn-hover-border-color: var(--color-acento-hover);
+    --bs-btn-active-bg: var(--color-acento-hover);
+    --bs-btn-active-border-color: var(--color-acento-hover);
+    --bs-btn-disabled-bg: var(--color-acento);
+    --bs-btn-disabled-border-color: var(--color-acento);
+    --bs-btn-focus-shadow-rgb: 215, 38, 56;
+}
+
+.contador-carrito,
+.etiqueta-destacado {
+    background-color: var(--color-acento);
+}
+
+.contador-carrito {
+    font-size: 0.6rem;
+}
+
+.promocion {
+    min-height: 360px;
+    padding: 2.5rem 8% 3rem;
+    background-color: #111822;
+    color: #fff;
+}
+
+.precio-anterior {
+    color: #bfc3ca;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 6%;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+}
+
+.carousel-indicators .active {
+    background-color: var(--color-acento);
+}
+
+.titulo-seccion::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 4px;
+    margin-top: 8px;
+    border-radius: 2px;
+    background-color: var(--color-acento);
+}
+
+.categoria {
+    background-color: #eceef2;
+    color: var(--color-oscuro);
+}
+
+.categoria:hover {
+    color: var(--color-acento);
+}
+
+.imagen-pendiente {
+    border: 1px dashed #a2a8b2;
+}
+
+.imagen-promocion {
+    height: 255px;
+    color: #d9dce2;
+}
+
+.imagen-producto {
+    height: 190px;
+    background-color: var(--color-fondo);
+    color: #636973;
+}
+
+.espacio-marca {
+    height: 65px;
+    color: #636973;
+}
+
+.pie-pagina a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.pie-pagina a:hover {
+    text-decoration: underline;
+}
+
+/* Bootstrap ofrece hasta seis columnas iguales; las ocho categorias necesitan este ajuste. */
+@media (min-width: 1200px) {
+    .categorias > .col {
+        width: 12.5%;
+    }
+}
+
+@media (min-width: 992px) {
+    .pie-pagina .row > div + div {
+        border-left: 1px solid var(--color-acento);
+        padding-left: 1.5rem;
+    }
+}

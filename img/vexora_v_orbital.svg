@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="480" viewBox="0 0 600 480" role="img" aria-labelledby="title desc">
+  <title id="title">VEXORA — isotipo V orbital</title>
+  <desc id="desc">Letra V angular en blanco, con pieza central y anillo orbital rojo que la cruza en diagonal.</desc>
+  <!-- Aro orbital: tramo trasero superior -->
+  <path fill="#D72638" d="M338 119 C406 77 476 49 518 53 C563 56 570 82 550 123 C531 162 485 214 453 234 C486 194 520 151 527 116 C535 81 516 70 484 76 C442 82 390 102 338 119 Z"/>
+  <!-- Pieza izquierda de la V -->
+  <path fill="#F5F6F8" d="M79 117 L220 126 L306 263 L274 314 L221 334 Z"/>
+  <!-- Trazo superior derecho rojo -->
+  <path fill="#D72638" d="M286 307 L394 147 L492 142 L437 224 Z"/>
+  <!-- Punta inferior de la V -->
+  <path fill="#F5F6F8" d="M244 371 L421 257 L295 454 Z"/>
+  <!-- Aro orbital: tramo delantero inferior, barrido fino con extremo afilado -->
+  <path fill="#D72638" d="M149 265 C110 307 76 349 63 379 C42 429 83 425 115 414 C189 394 274 350 358 302 C265 344 193 377 123 394 C87 403 91 374 103 346 C114 322 132 291 149 265 Z"/>
+</svg>
