@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explora los videojuegos, consolas, perifericos y accesorios gaming de VEXORA.">
+    <title>Tienda | VEXORA</title>
+    <link rel="icon" type="image/svg+xml" href="img/vexora_v_orbital.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/tienda.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg py-3" data-bs-theme="dark" aria-label="Navegacion principal">
+            <div class="container">
+                <a class="navbar-brand fs-4 fw-bold text-nowrap d-flex align-items-center gap-2" href="index.html" aria-label="VEXORA, inicio">
+                    <img src="img/vexora_v_orbital.svg" alt="" width="50" height="40" class="flex-shrink-0">
+                    <span>VEX<span class="texto-acento">ORA</span></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Mostrar u ocultar menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav mx-lg-auto gap-lg-3 mb-3 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="Tienda.html">Tienda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Contacto.html">Contacto</a></li>
+                    </ul>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <span class="position-relative text-white fs-4" role="img" aria-label="Carrito vacio, 0 productos">
+                            <i class="bi bi-cart3" aria-hidden="true"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill contador-carrito">0</span>
+                        </span>
+                        <button class="btn btn-primary ms-2" type="button" disabled><i class="bi bi-person-fill" aria-hidden="true"></i> Iniciar sesion</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+        <section class="cabecera-tienda py-4" aria-labelledby="tituloTienda">
+            <div class="container">
+                <nav aria-label="Migas de pan">
+                    <ol class="breadcrumb small mb-2">
+                        <li class="breadcrumb-item"><a class="link-light text-decoration-none" href="index.html">Inicio</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tienda</li>
+                    </ol>
+                </nav>
+                <h1 class="h2 fw-bold ps-3 mb-2" id="tituloTienda">Tienda VEXORA</h1>
+                <p class="mb-0">Videojuegos, consolas, perifericos y accesorios gaming en un solo lugar.</p>
+            </div>
+        </section>
+
+        <div class="container py-4">
+            <form class="bg-white border rounded-3 p-3 mb-4" aria-label="Filtros de productos">
+                <fieldset disabled>
+                    <legend class="visually-hidden">Filtrar productos</legend>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-12 col-md-6 col-xxl-3">
+                            <label class="form-label small fw-semibold" for="buscarProductos">Buscar producto</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
+                                <input class="form-control" id="buscarProductos" type="search" placeholder="Buscar productos...">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xxl-2">
+                            <label class="form-label small fw-semibold" for="categoria">Categoria</label>
+                            <select class="form-select" id="categoria">
+                                <option selected>Todas las categorias</option>
+                                <option>Videojuegos</option>
+                                <option>Consolas</option>
+                                <option>Accesorios</option>
+                                <option>Perifericos</option>
+                                <option>PC Gaming</option>
+                                <option>Merchandising</option>
+                                <option>Regalos</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xxl-2">
+                            <p class="form-label small fw-semibold">Rango de precio (&euro;)</p>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label class="visually-hidden" for="precioMinimo">Precio minimo</label>
+                                    <input class="form-control" id="precioMinimo" type="number" min="0" step="0.01" placeholder="Min">
+                                </div>
+                                <div class="col-6">
+                                    <label class="visually-hidden" for="precioMaximo">Precio maximo</label>
+                                    <input class="form-control" id="precioMaximo" type="number" min="0" step="0.01" placeholder="Max">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xxl-2">
+                            <p class="form-label small fw-semibold">Disponibilidad</p>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" id="soloStock" type="checkbox" role="switch">
+                                <label class="form-check-label small" for="soloStock">Solo con stock</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-8 col-xxl-2">
+                            <label class="form-label small fw-semibold" for="ordenProductos">Ordenar por</label>
+                            <select class="form-select" id="ordenProductos">
+                                <option selected>Mas recientes</option>
+                                <option>Precio de menor a mayor</option>
+                                <option>Precio de mayor a menor</option>
+                                <option>Nombre A-Z</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-4 col-xxl-1">
+                            <button class="btn btn-primary w-100 px-2" type="button"><i class="bi bi-funnel" aria-hidden="true"></i> Filtrar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+            <section class="mb-4" aria-labelledby="tituloProductos">
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                    <h2 class="titulo-seccion h3 fw-bold mb-0" id="tituloProductos">Todos los productos</h2>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3" id="productosTienda">
+                </div>
+            </section>
+
+            <div class="marcas py-2 mb-4" role="group" aria-label="Marcas">
+                <div class="marcas-ventana overflow-hidden">
+                    <div class="marcas-pista d-flex" id="pistaMarcas">
+                        <ul class="marcas-grupo d-flex flex-shrink-0 align-items-center list-unstyled m-0 p-0">
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/playstation_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="PlayStation" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/xbox_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Xbox" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/nintendo_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="Nintendo" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/asus_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="ASUS" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/lenovo_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Lenovo" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/dell_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Dell" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/hp_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="HP" width="240" height="100">
+                            </li>
+                        </ul>
+                        <ul class="marcas-grupo d-flex flex-shrink-0 align-items-center list-unstyled m-0 p-0" aria-hidden="true">
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/playstation_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/xbox_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/nintendo_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/asus_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/lenovo_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/dell_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                            <li class="marca-elemento flex-shrink-0 text-center px-2">
+                                <img src="img/hp_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="pie-pagina pt-4 pb-3" data-bs-theme="dark">
+        <div class="container">
+            <div class="row g-4 pb-4">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <a class="fs-4 fw-bold text-nowrap d-inline-flex align-items-center gap-2 text-decoration-none mb-2" href="index.html" aria-label="VEXORA, inicio">
+                        <img src="img/vexora_v_orbital.svg" alt="" width="50" height="40" class="flex-shrink-0">
+                        <span>VEX<span class="texto-acento">ORA</span></span>
+                    </a>
+                    <p class="small">Tu tienda de videojuegos, consolas y accesorios gaming</p>
+                    <div class="d-flex gap-3 texto-acento fs-4" role="group" aria-label="Redes sociales">
+                        <span role="img" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></span>
+                        <span role="img" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></span>
+                        <span role="img" aria-label="Twitch"><i class="bi bi-twitch" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-2">
+                    <h2 class="h6 fw-bold mb-3">Enlaces</h2>
+                    <nav class="d-flex flex-column gap-2 small" aria-label="Navegacion del pie de pagina">
+                        <a href="index.html">Inicio</a>
+                        <a href="Tienda.html">Tienda</a>
+                        <a href="Contacto.html">Contacto</a>
+                    </nav>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h2 class="h6 fw-bold mb-3">Informacion</h2>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0" aria-label="Informacion">
+                        <li>¿Quienes somos?</li>
+                        <li>Politica de privacidad</li>
+                        <li>Terminos y condiciones</li>
+                        <li>Envios y devoluciones</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <h2 class="h6 fw-bold mb-3">Suscribete a nuestra newsletter</h2>
+                    <div class="input-group mb-2">
+                        <label class="visually-hidden" for="correoNewsletter">Tu correo electronico</label>
+                        <input class="form-control" id="correoNewsletter" type="email" placeholder="Tu correo electronico" disabled>
+                        <button class="btn btn-primary" type="button" aria-label="Suscribirse" disabled><i class="bi bi-send-fill" aria-hidden="true"></i></button>
+                    </div>
+                    <p class="small mb-0">Recibe novedades, ofertas y promociones</p>
+                </div>
+            </div>
+            <div class="border-top pt-3 text-center small">&copy; 2026 VEXORA. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

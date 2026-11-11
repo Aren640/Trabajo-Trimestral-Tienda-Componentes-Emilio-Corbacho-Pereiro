@@ -105,9 +105,48 @@ body {
     color: #636973;
 }
 
-.espacio-marca {
-    height: 65px;
-    color: #636973;
+.marcas-pista {
+    width: max-content;
+    animation: desplazar-marcas 40s linear infinite;
+}
+
+.marca-elemento {
+    width: 190px;
+}
+
+.logo-marca {
+    max-width: 170px;
+    height: 80px;
+}
+
+.marcas-ventana:hover .marcas-pista {
+    animation-play-state: paused;
+}
+
+@keyframes desplazar-marcas {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marcas-pista {
+        width: 100%;
+        animation: none;
+    }
+
+    .marcas-grupo {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .marca-elemento {
+        width: 33.333333%;
+    }
+
+    .marcas-grupo[aria-hidden="true"] {
+        display: none !important;
+    }
 }
 
 .pie-pagina a {

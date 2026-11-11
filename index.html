@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg py-3" data-bs-theme="dark" aria-label="Navegacion principal">
             <div class="container">
@@ -39,7 +39,7 @@
         </nav>
     </header>
 
-    <main class="container py-3">
+    <main class="container py-3 flex-grow-1">
         <section class="mb-3" aria-labelledby="tituloPromociones">
             <h1 class="visually-hidden" id="tituloPromociones">Promociones de VEXORA</h1>
             <div id="promociones" class="carousel slide rounded-4 overflow-hidden" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover" role="region" aria-label="Promociones de VEXORA">
@@ -81,9 +81,7 @@
                                 <a class="btn btn-primary btn-lg" href="Tienda.html"><i class="bi bi-cart3" aria-hidden="true"></i> Ver oferta</a>
                             </div>
                             <div class="col-md-6">
-                                <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 imagen-promocion" data-imagen="img/xbox-series-x.webp" role="img" aria-label="Imagen pendiente de Xbox Series X">
-                                    <i class="bi bi-image fs-2" aria-hidden="true"></i>
-                                </div>
+                                <img src="img/xbox.png" class="imagen-promocion d-block w-100 object-fit-contain" alt="Consola Xbox Series X con mando">
                             </div>
                         </div>
                     </div>
@@ -220,98 +218,59 @@
                 <h2 class="titulo-seccion h3 fw-bold mb-0" id="tituloProductos">Productos destacados</h2>
                 <a class="texto-acento fw-semibold text-decoration-none" href="Tienda.html">Ver todos los productos →</a>
             </div>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
-                <div class="col">
-                    <article class="card h-100 rounded-3">
-                        <span class="badge etiqueta-destacado position-absolute top-0 start-0 m-3">Destacado</span>
-                        <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 imagen-producto m-3 mb-0 rounded" data-imagen="img/ps5.webp" role="img" aria-label="Imagen pendiente de PlayStation 5">
-                            <i class="bi bi-image fs-2" aria-hidden="true"></i>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title h5 fw-bold">PlayStation 5</h3>
-                            <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
-                                <p class="card-text texto-acento fs-4 fw-bold mb-0">499,99 €</p>
-                                <button class="btn btn-primary" type="button" aria-label="Añadir PlayStation 5 al carrito" disabled><i class="bi bi-cart3" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="card h-100 rounded-3">
-                        <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 imagen-producto m-3 mb-0 rounded" data-imagen="img/xbox-series-x.webp" role="img" aria-label="Imagen pendiente de Xbox Series X">
-                            <i class="bi bi-image fs-2" aria-hidden="true"></i>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title h5 fw-bold">Xbox Series X</h3>
-                            <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
-                                <p class="card-text texto-acento fs-4 fw-bold mb-0">499,99 €</p>
-                                <button class="btn btn-primary" type="button" aria-label="Añadir Xbox Series X al carrito" disabled><i class="bi bi-cart3" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="card h-100 rounded-3">
-                        <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 imagen-producto m-3 mb-0 rounded" data-imagen="img/hyperx-cloud-ii.webp" role="img" aria-label="Imagen pendiente de HyperX Cloud II">
-                            <i class="bi bi-image fs-2" aria-hidden="true"></i>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title h5 fw-bold">HyperX Cloud II</h3>
-                            <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
-                                <p class="card-text texto-acento fs-4 fw-bold mb-0">89,99 €</p>
-                                <button class="btn btn-primary" type="button" aria-label="Añadir HyperX Cloud II al carrito" disabled><i class="bi bi-cart3" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="card h-100 rounded-3">
-                        <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 imagen-producto m-3 mb-0 rounded" data-imagen="img/elden-ring.webp" role="img" aria-label="Imagen pendiente de Elden Ring">
-                            <i class="bi bi-image fs-2" aria-hidden="true"></i>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title h5 fw-bold">Elden Ring</h3>
-                            <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
-                                <p class="card-text texto-acento fs-4 fw-bold mb-0">59,99 €</p>
-                                <button class="btn btn-primary" type="button" aria-label="Añadir Elden Ring al carrito" disabled><i class="bi bi-cart3" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3" id="productosDestacados">
             </div>
         </section>
 
-        <div class="py-2 mb-4" role="group" aria-label="Espacios reservados para los logotipos oficiales de las marcas">
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 align-items-center">
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-playstation.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de PlayStation">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-xbox.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de Xbox">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-nintendo.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de Nintendo">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-asus.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de ASUS">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-hyperx.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de HyperX">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="imagen-pendiente d-flex justify-content-center align-items-center p-3 espacio-marca rounded" data-imagen="img/logo-logitech-g.svg" role="img" aria-label="Espacio reservado para el logotipo oficial de Logitech G">
-                        <i class="bi bi-image fs-5" aria-hidden="true"></i>
-                    </div>
+        <div class="marcas py-2 mb-4" role="group" aria-label="Marcas">
+            <div class="marcas-ventana overflow-hidden">
+                <div class="marcas-pista d-flex" id="pistaMarcas">
+                    <ul class="marcas-grupo d-flex flex-shrink-0 align-items-center list-unstyled m-0 p-0">
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/playstation_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="PlayStation" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/xbox_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Xbox" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/nintendo_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="Nintendo" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/asus_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="ASUS" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/lenovo_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Lenovo" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/dell_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="Dell" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/hp_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="HP" width="240" height="100">
+                        </li>
+                    </ul>
+                    <ul class="marcas-grupo d-flex flex-shrink-0 align-items-center list-unstyled m-0 p-0" aria-hidden="true">
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/playstation_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/xbox_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/nintendo_vexora.svg?v=2" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/asus_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/lenovo_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/dell_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                        <li class="marca-elemento flex-shrink-0 text-center px-2">
+                            <img src="img/hp_vexora.svg" class="logo-marca w-100 object-fit-contain" alt="" width="240" height="100">
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

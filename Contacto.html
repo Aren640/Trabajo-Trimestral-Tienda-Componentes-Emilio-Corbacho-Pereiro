@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacta con VEXORA y consulta las preguntas frecuentes sobre nuestra tienda gaming.">
+    <title>Contacto | VEXORA</title>
+    <link rel="icon" type="image/svg+xml" href="img/vexora_v_orbital.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/contacto.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg py-3" data-bs-theme="dark" aria-label="Navegacion principal">
+            <div class="container">
+                <a class="navbar-brand fs-4 fw-bold text-nowrap d-flex align-items-center gap-2" href="index.html" aria-label="VEXORA, inicio">
+                    <img src="img/vexora_v_orbital.svg" alt="" width="50" height="40" class="flex-shrink-0">
+                    <span>VEX<span class="texto-acento">ORA</span></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Mostrar u ocultar menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav mx-lg-auto gap-lg-3 mb-3 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Tienda.html">Tienda</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="Contacto.html">Contacto</a></li>
+                    </ul>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <span class="position-relative text-white fs-4" role="img" aria-label="Carrito vacio, 0 productos">
+                            <i class="bi bi-cart3" aria-hidden="true"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill contador-carrito">0</span>
+                        </span>
+                        <button class="btn btn-primary ms-2" type="button" disabled><i class="bi bi-person-fill" aria-hidden="true"></i> Iniciar sesion</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+        <section class="cabecera-contacto py-4" aria-labelledby="tituloContacto">
+            <div class="container">
+                <nav aria-label="Migas de pan">
+                    <ol class="breadcrumb small mb-2">
+                        <li class="breadcrumb-item"><a class="link-light text-decoration-none" href="index.html">Inicio</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Contacto</li>
+                    </ol>
+                </nav>
+                <h1 class="h2 fw-bold ps-3 mb-2" id="tituloContacto">Contacta con VEXORA</h1>
+                <p class="mb-0">&iquest;Tienes alguna duda? Estamos aqui para ayudarte.</p>
+            </div>
+        </section>
+
+        <div class="container py-4">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-7">
+                    <section class="bg-white border rounded-3 p-4 h-100" aria-labelledby="tituloFormulario">
+                        <h2 class="h4 fw-bold mb-4" id="tituloFormulario">Envianos un mensaje</h2>
+                        <form id="formularioContacto" aria-labelledby="tituloFormulario">
+                            <div class="mb-3">
+                                <label class="form-label" for="nombreCompleto">Nombre completo</label>
+                                <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="correoContacto">Correo electronico</label>
+                                <input class="form-control" type="email" id="correoContacto" name="correo" autocomplete="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="asuntoContacto">Asunto</label>
+                                <select class="form-select" id="asuntoContacto" name="asunto" required>
+                                    <option value="" selected disabled>Selecciona un asunto</option>
+                                    <option value="productos">Informacion sobre productos</option>
+                                    <option value="pedidos">Pedidos</option>
+                                    <option value="envios">Envios y devoluciones</option>
+                                    <option value="otros">Otros</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="mensajeContacto">Mensaje</label>
+                                <textarea class="form-control" id="mensajeContacto" name="mensaje" rows="5" required></textarea>
+                            </div>
+                            <!-- Envio desactivado hasta implementar el procesamiento del formulario. -->
+                            <button class="btn btn-primary" type="submit" disabled>Enviar mensaje</button>
+                        </form>
+                    </section>
+                </div>
+                <div class="col-lg-5">
+                    <section class="bg-white border rounded-3 p-4 h-100" aria-labelledby="tituloUbicacion">
+                        <h2 class="h4 fw-bold mb-4" id="tituloUbicacion">Donde encontrarnos</h2>
+                        <div class="ratio ratio-4x3 bg-body-tertiary border rounded-3 overflow-hidden" id="mapaContacto">
+                            <iframe src="https://www.google.com/maps?q=Aula+Estudio,+Santa+Marta+Interior,+Vigo&amp;output=embed" title="Ubicacion de Aula Estudio en Vigo" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="border-0" allowfullscreen></iframe>
+                        </div>
+                        <div class="mt-3" id="datosUbicacion">
+                            <address class="mb-0">
+                                <strong>Aula Estudio</strong><br>
+                                Calle Santa Marta Interior, s/n<br>
+                                36202 Vigo, Pontevedra
+                            </address>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <section aria-labelledby="tituloPreguntas" id="preguntasFrecuentes">
+                <h2 class="titulo-seccion h3 fw-bold mb-4" id="tituloPreguntas">Preguntas frecuentes</h2>
+                <div class="accordion" id="acordeonPreguntas">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="pregunta1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta1" aria-expanded="false" aria-controls="respuesta1">&iquest;Como puedo realizar un pedido?</button>
+                        </h3>
+                        <div class="accordion-collapse collapse" role="region" id="respuesta1" aria-labelledby="pregunta1" data-bs-parent="#acordeonPreguntas">
+                            <div class="accordion-body">Esta previsto que puedas elegir productos, anadirlos al carrito y confirmar el pedido. El proceso de compra todavia no esta disponible.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="pregunta2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta2" aria-expanded="false" aria-controls="respuesta2">&iquest;Como puedo consultar el estado de mi compra?</button>
+                        </h3>
+                        <div class="accordion-collapse collapse" role="region" id="respuesta2" aria-labelledby="pregunta2" data-bs-parent="#acordeonPreguntas">
+                            <div class="accordion-body">Cuando se implemente la cuenta de usuario, podras consultar tus pedidos y su estado desde tu area personal.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="pregunta3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta3" aria-expanded="false" aria-controls="respuesta3">&iquest;Que ocurre si un producto esta agotado?</button>
+                        </h3>
+                        <div class="accordion-collapse collapse" role="region" id="respuesta3" aria-labelledby="pregunta3" data-bs-parent="#acordeonPreguntas">
+                            <div class="accordion-body">Esta previsto mostrar la disponibilidad de cada producto e impedir la compra cuando no haya existencias.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="pregunta4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta4" aria-expanded="false" aria-controls="respuesta4">&iquest;Como puedo cancelar un pedido?</button>
+                        </h3>
+                        <div class="accordion-collapse collapse" role="region" id="respuesta4" aria-labelledby="pregunta4" data-bs-parent="#acordeonPreguntas">
+                            <div class="accordion-body">La gestion de pedidos se desarrollara mas adelante. Todavia no se pueden realizar ni cancelar pedidos.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="pregunta5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#respuesta5" aria-expanded="false" aria-controls="respuesta5">&iquest;Como puedo modificar mis datos personales?</button>
+                        </h3>
+                        <div class="accordion-collapse collapse" role="region" id="respuesta5" aria-labelledby="pregunta5" data-bs-parent="#acordeonPreguntas">
+                            <div class="accordion-body">Esta previsto incluir una seccion de cuenta para consultar y editar los datos personales cuando se implemente el registro de usuarios.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="pie-pagina pt-4 pb-3" data-bs-theme="dark">
+        <div class="container">
+            <div class="row g-4 pb-4">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <a class="fs-4 fw-bold text-nowrap d-inline-flex align-items-center gap-2 text-decoration-none mb-2" href="index.html" aria-label="VEXORA, inicio">
+                        <img src="img/vexora_v_orbital.svg" alt="" width="50" height="40" class="flex-shrink-0">
+                        <span>VEX<span class="texto-acento">ORA</span></span>
+                    </a>
+                    <p class="small">Tu tienda de videojuegos, consolas y accesorios gaming</p>
+                    <div class="d-flex gap-3 texto-acento fs-4" role="group" aria-label="Redes sociales">
+                        <span role="img" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></span>
+                        <span role="img" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></span>
+                        <span role="img" aria-label="Twitch"><i class="bi bi-twitch" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-2">
+                    <h2 class="h6 fw-bold mb-3">Enlaces</h2>
+                    <nav class="d-flex flex-column gap-2 small" aria-label="Navegacion del pie de pagina">
+                        <a href="index.html">Inicio</a>
+                        <a href="Tienda.html">Tienda</a>
+                        <a href="Contacto.html">Contacto</a>
+                    </nav>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h2 class="h6 fw-bold mb-3">Informacion</h2>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0" aria-label="Informacion">
+                        <li>¿Quienes somos?</li>
+                        <li>Politica de privacidad</li>
+                        <li>Terminos y condiciones</li>
+                        <li>Envios y devoluciones</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <h2 class="h6 fw-bold mb-3">Suscribete a nuestra newsletter</h2>
+                    <div class="input-group mb-2">
+                        <label class="visually-hidden" for="correoNewsletter">Tu correo electronico</label>
+                        <input class="form-control" id="correoNewsletter" type="email" placeholder="Tu correo electronico" disabled>
+                        <button class="btn btn-primary" type="button" aria-label="Suscribirse" disabled><i class="bi bi-send-fill" aria-hidden="true"></i></button>
+                    </div>
+                    <p class="small mb-0">Recibe novedades, ofertas y promociones</p>
+                </div>
+            </div>
+            <div class="border-top pt-3 text-center small">&copy; 2026 VEXORA. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
