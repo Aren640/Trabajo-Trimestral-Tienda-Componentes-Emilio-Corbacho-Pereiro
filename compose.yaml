@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8080:8000"
+    volumes:
+      - ./index.html:/app/index.html:ro
+      - ./tienda.html:/app/tienda.html:ro
+      - ./contacto.html:/app/contacto.html:ro
+      - ./css:/app/css:ro
+      - ./js:/app/js:ro
+      - ./img:/app/img:ro
+      - ./php:/app/php:ro

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php": "^8.3",
+        "ext-mongodb": "^2.5",
+        "mongodb/mongodb": "^2.1"
+    }
+}
