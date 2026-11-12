@@ -9,7 +9,6 @@ if (formulario) {
 
         const clave = document.getElementById('claveRegistro').value;
         const repetir = document.getElementById('confirmarClaveRegistro').value;
-
         mensaje.className = 'alert d-none';
 
         if (clave !== repetir) {
@@ -18,7 +17,32 @@ if (formulario) {
             return;
         }
 
+        boton.disabled = true;
+        boton.textContent = 'Creando cuenta...';
+
+        try {
+            const respuesta = await fetch('php/registro.php', {
+                method: 'POST',
+                body: new FormData(formulario)
+            });
+            const datos = await respuesta.json();
+
+            mensaje.className = respuesta.ok ? 'alert alert-success' : 'alert alert-danger';
+            mensaje.textContent = datos.mensaje;
+
+            if (respuesta.ok) {
+                formulario.reset();
+            }
+        } catch (error) {
+            mensaje.className = 'alert alert-danger';
+            mensaje.textContent = 'No se pudo enviar el registro.';
+        } finally {
+            boton.disabled = false;
+            boton.textContent = 'Crear cuenta';
+        }
     });
+
+    boton.disabled = false;
 }
 
 const acceso = document.getElementById('formularioAcceso');
@@ -33,5 +57,52 @@ if (acceso) {
         mensaje.className = 'alert d-none';
         boton.disabled = true;
 
+        try {
+            const respuesta = await fetch('php/login.php', {
+                method: 'POST',
+                body: new FormData(acceso)
+            });
+            const datos = await respuesta.json();
+
+            mensaje.className = respuesta.ok ? 'alert alert-success' : 'alert alert-danger';
+            mensaje.textContent = datos.mensaje;
+
+            if (respuesta.ok) {
+                acceso.reset();
+                await verSesion();
+            }
+        } catch (error) {
+            mensaje.className = 'alert alert-danger';
+            mensaje.textContent = 'No se pudo iniciar sesion.';
+        } finally {
+            boton.disabled = false;
+        }
     });
+
+    boton.disabled = false;
+    verSesion();
+}
+
+// Los botones cambian segun la sesion que confirme PHP
+async function verSesion() {
+    const nombre = document.getElementById('nombreUsuario');
+    const entrada = document.querySelector('header [data-bs-target="#modalAcceso"]');
+    const aviso = document.getElementById('avisoSesion');
+
+    try {
+        const respuesta = await fetch('php/login.php');
+        if (!respuesta.ok) {
+            throw new Error('No se pudo comprobar la sesion.');
+        }
+        const datos = await respuesta.json();
+        aviso.classList.add('d-none');
+
+        if (datos.nombre) {
+            nombre.textContent = datos.nombre;
+            entrada.disabled = true;
+        }
+    } catch (error) {
+        aviso.textContent = 'No se pudo comprobar tu sesion. Recarga la pagina.';
+        aviso.classList.remove('d-none');
+    }
 }
