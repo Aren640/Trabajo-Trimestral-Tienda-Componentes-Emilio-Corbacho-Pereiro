@@ -87,6 +87,13 @@ if (acceso) {
 
 verSesion();
 
+// Al volver con Atras comprobar la sesion por si se ha cerrado
+window.addEventListener('pageshow', function (evento) {
+    if (evento.persisted) {
+        verSesion();
+    }
+});
+
 // Los botones cambian segun la sesion que confirme PHP
 async function verSesion() {
     const registro = document.getElementById('botonRegistro');
@@ -111,8 +118,14 @@ async function verSesion() {
             if (perfil) {
                 perfil.textContent = datos.nombre;
             }
-        } else if (perfil) {
-            window.location.replace('index.html');
+        } else {
+            registro.classList.remove('d-none');
+            entrada.classList.remove('d-none');
+            cuenta.classList.add('d-none');
+
+            if (perfil) {
+                window.location.replace('index.html');
+            }
         }
     } catch (error) {
         aviso.textContent = 'No se pudo comprobar tu sesion. Recarga la pagina.';
