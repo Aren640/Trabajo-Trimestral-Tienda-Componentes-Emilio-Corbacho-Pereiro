@@ -86,13 +86,8 @@ body {
     color: var(--color-acento);
 }
 
-.imagen-pendiente {
-    border: 1px dashed #a2a8b2;
-}
-
 .imagen-promocion {
     height: 255px;
-    color: #d9dce2;
 }
 
 .imagen-producto {
