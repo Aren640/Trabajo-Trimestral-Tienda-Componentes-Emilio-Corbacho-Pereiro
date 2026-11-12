@@ -2,6 +2,7 @@
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
+session_start(['use_strict_mode' => true, 'cookie_httponly' => true, 'cookie_samesite' => 'Lax']);
 
 function responderRegistro($codigo, $mensaje)
 {
@@ -44,13 +45,22 @@ try {
     // Guardar el hash nunca la contraseña escrita
     $hash = password_hash($clave, PASSWORD_DEFAULT);
 
-    $usuarios->insertOne([
+    // Las cuentas nuevas son clientes
+    $alta = $usuarios->insertOne([
         'nombre' => $nombre,
         'correo' => $correo,
         'clave' => $hash,
         'rol' => 'cliente',
         'fechaRegistro' => new MongoDB\BSON\UTCDateTime()
     ]);
+
+    // Al registrarse el usuario ya queda con la sesion iniciada
+    session_regenerate_id(true);
+    $_SESSION = [
+        'id' => (string) $alta->getInsertedId(),
+        'nombre' => $nombre,
+        'rol' => 'cliente'
+    ];
 
     responderRegistro(201, 'Cuenta creada correctamente.');
 } catch (Throwable $error) {

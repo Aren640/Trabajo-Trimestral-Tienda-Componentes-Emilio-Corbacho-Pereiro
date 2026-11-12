@@ -9,6 +9,7 @@ services:
       - ./index.html:/app/index.html:ro
       - ./tienda.html:/app/tienda.html:ro
       - ./contacto.html:/app/contacto.html:ro
+      - ./cuenta.html:/app/cuenta.html:ro
       - ./css:/app/css:ro
       - ./js:/app/js:ro
       - ./img:/app/img:ro

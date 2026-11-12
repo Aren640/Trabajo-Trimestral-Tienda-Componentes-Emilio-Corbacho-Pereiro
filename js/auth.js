@@ -32,6 +32,8 @@ if (formulario) {
 
             if (respuesta.ok) {
                 formulario.reset();
+                await verSesion();
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalRegistro')).hide();
             }
         } catch (error) {
             mensaje.className = 'alert alert-danger';
@@ -70,6 +72,7 @@ if (acceso) {
             if (respuesta.ok) {
                 acceso.reset();
                 await verSesion();
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAcceso')).hide();
             }
         } catch (error) {
             mensaje.className = 'alert alert-danger';
@@ -80,13 +83,16 @@ if (acceso) {
     });
 
     boton.disabled = false;
-    verSesion();
 }
+
+verSesion();
 
 // Los botones cambian segun la sesion que confirme PHP
 async function verSesion() {
-    const nombre = document.getElementById('nombreUsuario');
-    const entrada = document.querySelector('header [data-bs-target="#modalAcceso"]');
+    const registro = document.getElementById('botonRegistro');
+    const entrada = document.getElementById('botonAcceso');
+    const cuenta = document.getElementById('botonPerfil');
+    const perfil = document.getElementById('perfilNombre');
     const aviso = document.getElementById('avisoSesion');
 
     try {
@@ -98,8 +104,15 @@ async function verSesion() {
         aviso.classList.add('d-none');
 
         if (datos.nombre) {
-            nombre.textContent = datos.nombre;
-            entrada.disabled = true;
+            registro.classList.add('d-none');
+            entrada.classList.add('d-none');
+            cuenta.classList.remove('d-none');
+
+            if (perfil) {
+                perfil.textContent = datos.nombre;
+            }
+        } else if (perfil) {
+            window.location.replace('index.html');
         }
     } catch (error) {
         aviso.textContent = 'No se pudo comprobar tu sesion. Recarga la pagina.';
