@@ -10,6 +10,7 @@ services:
       - ./tienda.html:/app/tienda.html:ro
       - ./contacto.html:/app/contacto.html:ro
       - ./cuenta.html:/app/cuenta.html:ro
+      - ./producto.html:/app/producto.html:ro
       - ./css:/app/css:ro
       - ./js:/app/js:ro
       - ./img:/app/img:ro

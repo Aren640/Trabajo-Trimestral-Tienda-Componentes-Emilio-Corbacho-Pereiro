@@ -35,9 +35,9 @@ async function cargarProductos() {
             columna.className = 'col';
             columna.innerHTML = `
                 <article class="card h-100">
-                    <img class="card-img-top imagen-producto object-fit-contain p-3" alt="">
+                    <a class="imagen-enlace d-block"><img class="card-img-top imagen-producto object-fit-contain p-3" alt=""></a>
                     <div class="card-body d-flex flex-column">
-                        <h3 class="card-title h5"></h3>
+                        <h3 class="card-title h5"><a class="nombre-producto text-reset text-decoration-none"></a></h3>
                         <p class="categoria-producto card-text text-body-secondary small"></p>
                         <p class="precio-producto card-text texto-acento fw-bold fs-4"></p>
                         <p class="stock-producto card-text small"></p>
@@ -50,7 +50,11 @@ async function cargarProductos() {
             const imagen = columna.querySelector('img');
             imagen.src = producto.imagen;
             imagen.alt = producto.nombre;
-            columna.querySelector('h3').textContent = producto.nombre;
+            const enlace = 'producto.html?id=' + encodeURIComponent(producto.id);
+            columna.querySelector('.imagen-enlace').href = enlace;
+            const nombre = columna.querySelector('.nombre-producto');
+            nombre.href = enlace;
+            nombre.textContent = producto.nombre;
             columna.querySelector('.categoria-producto').textContent = producto.categoria;
             columna.querySelector('.precio-producto').textContent = producto.precio.toLocaleString('es-ES', {
                 style: 'currency',
