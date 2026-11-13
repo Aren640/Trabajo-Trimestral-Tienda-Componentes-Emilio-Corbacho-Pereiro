@@ -1,5 +1,20 @@
 const ficha = document.getElementById('fichaProducto');
 const mensaje = document.getElementById('mensajeProducto');
+const cantidad = document.getElementById('cantidadProducto');
+const restar = document.getElementById('restarCantidad');
+const sumar = document.getElementById('sumarCantidad');
+
+restar.addEventListener('click', function () {
+    cantidad.stepDown();
+    actualizarCantidad();
+});
+
+sumar.addEventListener('click', function () {
+    cantidad.stepUp();
+    actualizarCantidad();
+});
+
+cantidad.addEventListener('input', actualizarCantidad);
 
 async function cargarProducto() {
     const id = new URLSearchParams(window.location.search).get('id');
@@ -37,6 +52,13 @@ async function cargarProducto() {
         } else {
             stock.textContent = 'Sin stock';
         }
+        cantidad.max = producto.stock;
+        cantidad.value = 0;
+        if (producto.stock > 0) {
+            cantidad.value = 1;
+        }
+        cantidad.disabled = producto.stock <= 0;
+        actualizarCantidad();
         document.title = producto.nombre + ' | VEXORA';
         mensaje.classList.add('d-none');
         ficha.classList.remove('d-none');
@@ -44,6 +66,12 @@ async function cargarProducto() {
         mensaje.textContent = 'No se pudo cargar el producto. Intentalo mas tarde.';
         mensaje.classList.add('text-danger');
     }
+}
+
+function actualizarCantidad() {
+    const valor = Number(cantidad.value);
+    restar.disabled = cantidad.disabled || valor <= Number(cantidad.min);
+    sumar.disabled = cantidad.disabled || valor >= Number(cantidad.max);
 }
 
 cargarProducto();

@@ -51,16 +51,31 @@
                 <li class="breadcrumb-item active" id="migaProducto" aria-current="page">Producto</li>
             </ol>
         </nav>
-        <h1 class="h2 mb-4" id="nombreProducto">Detalle del producto</h1>
         <p class="text-body-secondary" id="mensajeProducto" role="status">Cargando producto...</p>
         <section class="card d-none" id="fichaProducto" aria-labelledby="nombreProducto">
             <div class="row g-0 align-items-center">
                 <div class="col-md-6" id="imagenProducto"></div>
                 <div class="col-md-6">
                     <div class="card-body">
+                        <h1 class="h2 mb-3" id="nombreProducto">Detalle del producto</h1>
                         <p class="text-body-secondary" id="categoriaProducto"></p>
                         <p class="texto-acento fs-3 fw-bold" id="precioProducto"></p>
-                        <p class="mb-0" id="stockProducto"></p>
+                        <p id="stockProducto"></p>
+                        <div class="row g-3 align-items-end">
+                            <div class="col-12 col-xl-5">
+                                <label class="form-label" for="cantidadProducto">Cantidad</label>
+                                <div class="input-group flex-nowrap">
+                                    <button class="btn btn-outline-secondary" id="restarCantidad" type="button" aria-label="Restar una unidad" disabled>−</button>
+                                    <input class="form-control text-center" id="cantidadProducto" name="cantidad" type="number" min="1" step="1" value="1" aria-describedby="stockProducto" required disabled>
+                                    <button class="btn btn-outline-secondary" id="sumarCantidad" type="button" aria-label="Sumar una unidad" disabled>+</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-7">
+                                <button class="btn btn-primary w-100" id="botonCarrito" type="button" disabled>
+                                    <i class="bi bi-cart3" aria-hidden="true"></i> Añadir al carrito
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
