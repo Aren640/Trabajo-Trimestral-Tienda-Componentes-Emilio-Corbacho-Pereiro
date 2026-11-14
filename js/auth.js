@@ -125,8 +125,10 @@ async function verSesion() {
 
             if (perfil) {
                 window.location.replace('index.html');
+                return;
             }
         }
+        await cargarCarrito();
     } catch (error) {
         aviso.textContent = 'No se pudo comprobar tu sesion. Recarga la pagina.';
         aviso.classList.remove('d-none');

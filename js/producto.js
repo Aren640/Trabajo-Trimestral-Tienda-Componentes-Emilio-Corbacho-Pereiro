@@ -3,6 +3,14 @@ const mensaje = document.getElementById('mensajeProducto');
 const cantidad = document.getElementById('cantidadProducto');
 const restar = document.getElementById('restarCantidad');
 const sumar = document.getElementById('sumarCantidad');
+const botonCarrito = document.getElementById('botonCarrito');
+
+botonCarrito.addEventListener('click', function () {
+    if (cantidad.reportValidity()) {
+        const id = new URLSearchParams(window.location.search).get('id');
+        cambiarCarrito('anadir', id, cantidad.value);
+    }
+});
 
 restar.addEventListener('click', function () {
     cantidad.stepDown();
@@ -17,6 +25,7 @@ sumar.addEventListener('click', function () {
 cantidad.addEventListener('input', actualizarCantidad);
 
 async function cargarProducto() {
+    botonCarrito.disabled = true;
     const id = new URLSearchParams(window.location.search).get('id');
 
     if (!id) {
@@ -29,6 +38,8 @@ async function cargarProducto() {
         const producto = await respuesta.json();
 
         if (!respuesta.ok) {
+            ficha.classList.add('d-none');
+            mensaje.classList.remove('d-none');
             mensaje.textContent = producto.mensaje;
             mensaje.classList.add('text-danger');
             return;
@@ -38,7 +49,7 @@ async function cargarProducto() {
         imagen.src = producto.imagen;
         imagen.alt = producto.nombre;
         imagen.className = 'imagen-ficha d-block w-100 object-fit-contain p-4';
-        document.getElementById('imagenProducto').appendChild(imagen);
+        document.getElementById('imagenProducto').replaceChildren(imagen);
         document.getElementById('nombreProducto').textContent = producto.nombre;
         document.getElementById('migaProducto').textContent = producto.nombre;
         document.getElementById('categoriaProducto').textContent = producto.categoria;
@@ -63,6 +74,8 @@ async function cargarProducto() {
         mensaje.classList.add('d-none');
         ficha.classList.remove('d-none');
     } catch (error) {
+        ficha.classList.add('d-none');
+        mensaje.classList.remove('d-none');
         mensaje.textContent = 'No se pudo cargar el producto. Intentalo mas tarde.';
         mensaje.classList.add('text-danger');
     }
@@ -72,6 +85,7 @@ function actualizarCantidad() {
     const valor = Number(cantidad.value);
     restar.disabled = cantidad.disabled || valor <= Number(cantidad.min);
     sumar.disabled = cantidad.disabled || valor >= Number(cantidad.max);
+    botonCarrito.disabled = cantidad.disabled || carritoOcupado;
 }
 
 cargarProducto();

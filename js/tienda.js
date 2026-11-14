@@ -41,7 +41,7 @@ async function cargarProductos() {
                         <p class="categoria-producto card-text text-body-secondary small"></p>
                         <p class="precio-producto card-text texto-acento fw-bold fs-4"></p>
                         <p class="stock-producto card-text small"></p>
-                        <button class="btn btn-primary mt-auto" type="button" disabled>
+                        <button class="btn btn-primary mt-auto anadir-carrito" type="button" disabled>
                             <i class="bi bi-cart3" aria-hidden="true"></i> Añadir al carrito
                         </button>
                     </div>
@@ -66,6 +66,11 @@ async function cargarProductos() {
             } else {
                 stock.textContent = 'Sin stock';
             }
+            const boton = columna.querySelector('.anadir-carrito');
+            boton.disabled = producto.stock <= 0;
+            boton.addEventListener('click', function () {
+                cambiarCarrito('anadir', producto.id);
+            });
             lista.appendChild(columna);
         }
 
