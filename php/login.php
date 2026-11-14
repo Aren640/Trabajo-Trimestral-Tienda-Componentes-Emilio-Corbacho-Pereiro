@@ -14,7 +14,25 @@ function responderAcceso($codigo, $mensaje)
 
 // GET consulta la sesion y POST comprueba el formulario de acceso
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    echo json_encode(['nombre' => $_SESSION['nombre'] ?? null]);
+    if (isset($_SESSION['id'])) {
+        try {
+            require_once __DIR__ . '/conexion.php';
+            $base = conectarMongoDB();
+            $usuarios = $base->selectCollection('usuarios');
+            $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
+            $usuario = $usuarios->findOne(['_id' => $id]);
+            if ($usuario) {
+                $_SESSION['nombre'] = $usuario['nombre'];
+                // Volver a leer el permiso por si se ha cambiado desde MongoDB
+                $_SESSION['admin'] = ($usuario['admin'] ?? false) === true;
+            } else {
+                $_SESSION = [];
+            }
+        } catch (Throwable $error) {
+            responderAcceso(500, 'No se pudo comprobar la sesion. Intentalo mas tarde.');
+        }
+    }
+    echo json_encode(['nombre' => $_SESSION['nombre'] ?? null, 'admin' => $_SESSION['admin'] ?? false]);
     exit;
 }
 
@@ -51,7 +69,7 @@ try {
     $_SESSION = [
         'id' => (string) $usuario['_id'],
         'nombre' => $usuario['nombre'],
-        'rol' => $usuario['rol']
+        'admin' => ($usuario['admin'] ?? false) === true
     ];
 
     responderAcceso(200, 'Sesion iniciada correctamente.');

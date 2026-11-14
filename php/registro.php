@@ -41,16 +41,15 @@ try {
     require_once __DIR__ . '/conexion.php';
     $base = conectarMongoDB();
     $usuarios = $base->selectCollection('usuarios');
-
     // Guardar el hash nunca la contraseña escrita
     $hash = password_hash($clave, PASSWORD_DEFAULT);
 
-    // Las cuentas nuevas son clientes
+    // Las cuentas nuevas son clientes y el permiso de admin se cambia desde MongoDB
     $alta = $usuarios->insertOne([
         'nombre' => $nombre,
         'correo' => $correo,
         'clave' => $hash,
-        'rol' => 'cliente',
+        'admin' => false,
         'fechaRegistro' => new MongoDB\BSON\UTCDateTime()
     ]);
 
@@ -59,7 +58,7 @@ try {
     $_SESSION = [
         'id' => (string) $alta->getInsertedId(),
         'nombre' => $nombre,
-        'rol' => 'cliente'
+        'admin' => false
     ];
 
     responderRegistro(201, 'Cuenta creada correctamente.');

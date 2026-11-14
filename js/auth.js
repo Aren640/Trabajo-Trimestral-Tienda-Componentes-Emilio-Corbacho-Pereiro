@@ -101,6 +101,7 @@ async function verSesion() {
     const cuenta = document.getElementById('botonPerfil');
     const perfil = document.getElementById('perfilNombre');
     const aviso = document.getElementById('avisoSesion');
+    const admin = document.getElementById('botonAdmin');
 
     try {
         const respuesta = await fetch('php/login.php');
@@ -109,6 +110,9 @@ async function verSesion() {
         }
         const datos = await respuesta.json();
         aviso.classList.add('d-none');
+        if (admin) {
+            admin.classList.toggle('d-none', datos.admin !== true);
+        }
 
         if (datos.nombre) {
             registro.classList.add('d-none');
