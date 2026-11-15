@@ -1,6 +1,7 @@
 const listaPedidos = document.getElementById('listaPedidos');
 const mensajePedidos = document.getElementById('mensajePedidos');
 const actualizarPedidos = document.getElementById('actualizarPedidos');
+let guardandoPedido = false;
 
 if (actualizarPedidos) {
     actualizarPedidos.addEventListener('click', cargarPedidos);
@@ -23,7 +24,7 @@ async function cargarPedidos() {
         }
         document.getElementById('botonAdmin').classList.remove('d-none');
         if (pedidos.length === 0) {
-            mensajePedidos.textContent = 'Todavia no hay pedidos.';
+            mensajePedidos.textContent = 'No hay pedidos pendientes.';
             return;
         }
 
@@ -47,6 +48,10 @@ async function cargarPedidos() {
                         </table>
                     </div>
                     <p class="fw-bold text-end mb-0">Total: <span class="total texto-acento"></span></p>
+                    <div class="acciones d-flex flex-wrap gap-2 mt-3">
+                        <button class="btn btn-primary aceptar" type="button">Aceptar</button>
+                        <button class="btn btn-outline-danger rechazar" type="button">Rechazar</button>
+                    </div>
                 </div>`;
 
             tarjeta.querySelector('.referencia').textContent = pedido.id;
@@ -55,6 +60,13 @@ async function cargarPedidos() {
             tarjeta.querySelector('.correo').textContent = pedido.correo;
             tarjeta.querySelector('.fecha').textContent = new Date(pedido.fecha).toLocaleString('es-ES');
             tarjeta.querySelector('.total').textContent = pedido.total.toLocaleString('es-ES', {style: 'currency', currency: 'EUR'});
+
+            tarjeta.querySelector('.aceptar').addEventListener('click', function () {
+                guardarEstado(pedido.id, 'aceptado');
+            });
+            tarjeta.querySelector('.rechazar').addEventListener('click', function () {
+                guardarEstado(pedido.id, 'rechazado');
+            });
 
             for (const producto of pedido.productos) {
                 const fila = document.createElement('tr');
@@ -73,6 +85,42 @@ async function cargarPedidos() {
         mensajePedidos.className = 'alert alert-danger';
     } finally {
         actualizarPedidos.disabled = false;
+    }
+}
+
+// Bloquear los botones mientras se guarda la decision sobre el pedido
+async function guardarEstado(id, estado) {
+    if (guardandoPedido) {
+        return;
+    }
+    guardandoPedido = true;
+    const aviso = document.getElementById('avisoPedido');
+    const controles = document.querySelectorAll('#listaPedidos button, #actualizarPedidos');
+    for (const control of controles) {
+        control.disabled = true;
+    }
+
+    try {
+        const datos = new FormData();
+        datos.append('id', id);
+        datos.append('estado', estado);
+        const respuesta = await fetch('../php/admin.php?seccion=pedidos', {method: 'POST', body: datos});
+        const resultado = await respuesta.json();
+        await cargarPedidos();
+        aviso.textContent = resultado.mensaje;
+        if (respuesta.ok) {
+            aviso.className = 'alert alert-success';
+        } else {
+            aviso.className = 'alert alert-danger';
+        }
+    } catch (error) {
+        aviso.textContent = 'No se pudo comprobar el cambio. Actualiza los pedidos antes de volver a intentarlo.';
+        aviso.className = 'alert alert-danger';
+    } finally {
+        guardandoPedido = false;
+        for (const control of controles) {
+            control.disabled = false;
+        }
     }
 }
 

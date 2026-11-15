@@ -27,13 +27,15 @@ if (formulario) {
             });
             const datos = await respuesta.json();
 
-            mensaje.className = respuesta.ok ? 'alert alert-success' : 'alert alert-danger';
             mensaje.textContent = datos.mensaje;
 
             if (respuesta.ok) {
+                mensaje.className = 'alert alert-success';
                 formulario.reset();
                 await verSesion();
                 bootstrap.Modal.getOrCreateInstance(document.getElementById('modalRegistro')).hide();
+            } else {
+                mensaje.className = 'alert alert-danger';
             }
         } catch (error) {
             mensaje.className = 'alert alert-danger';
@@ -66,13 +68,15 @@ if (acceso) {
             });
             const datos = await respuesta.json();
 
-            mensaje.className = respuesta.ok ? 'alert alert-success' : 'alert alert-danger';
             mensaje.textContent = datos.mensaje;
 
             if (respuesta.ok) {
+                mensaje.className = 'alert alert-success';
                 acceso.reset();
                 await verSesion();
                 bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAcceso')).hide();
+            } else {
+                mensaje.className = 'alert alert-danger';
             }
         } catch (error) {
             mensaje.className = 'alert alert-danger';
@@ -121,6 +125,8 @@ async function verSesion() {
 
             if (perfil) {
                 perfil.textContent = datos.nombre;
+                document.getElementById('perfilCorreo').textContent = datos.correo;
+                await cargarHistorial();
             }
         } else {
             registro.classList.remove('d-none');

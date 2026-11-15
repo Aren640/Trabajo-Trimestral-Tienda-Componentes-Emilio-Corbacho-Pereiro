@@ -36,7 +36,7 @@ if ($metodo === 'POST') {
     if ($origen !== '' && $origen !== $protocolo . ($_SERVER['HTTP_HOST'] ?? '')) {
         responderAdmin(403, ['mensaje' => 'La peticion debe realizarse desde VEXORA.']);
     }
-    if ($seccion !== 'productos') {
+    if ($seccion === 'panel') {
         responderAdmin(405, ['mensaje' => 'Metodo no permitido.']);
     }
 }
@@ -98,7 +98,65 @@ try {
         responderAdmin(201, ['mensaje' => 'Producto creado correctamente.', 'id' => (string) $producto->getInsertedId()]);
     }
 
-    $pedidos = $base->pedidos->find([], ['sort' => ['fecha' => -1, '_id' => -1]]);
+    if ($metodo === 'POST') {
+        $id = $_POST['id'] ?? '';
+        $estado = $_POST['estado'] ?? '';
+        if (!is_string($id) || strlen($id) !== 24 || !ctype_xdigit($id) || !in_array($estado, ['aceptado', 'rechazado'], true)) {
+            responderAdmin(422, ['mensaje' => 'Selecciona un pedido y un estado validos.']);
+        }
+
+        $sesion = $base->getManager()->startSession();
+        $codigo = 200;
+        $mensaje = '';
+
+        // El estado del pedido y la devolucion del stock tienen que guardarse juntos
+        MongoDB\with_transaction($sesion, function ($sesion) use ($base, $id, $estado, &$codigo, &$mensaje) {
+            $opciones = ['session' => $sesion];
+            $pedido = $base->pedidos->findOne(['_id' => new MongoDB\BSON\ObjectId($id)], $opciones);
+            if (!$pedido) {
+                $codigo = 404;
+                $mensaje = 'No se ha encontrado el pedido.';
+                return;
+            }
+            if ($pedido['estado'] === $estado) {
+                $codigo = 200;
+                $mensaje = 'El pedido ya tiene ese estado.';
+                return;
+            }
+
+            // Si el pedido ya esta resuelto no volvemos a tocar el stock
+            if ($pedido['estado'] !== 'pendiente') {
+                $codigo = 409;
+                $mensaje = 'Ese cambio no esta permitido en el estado actual del pedido.';
+                return;
+            }
+
+            if ($estado === 'rechazado') {
+                foreach ($pedido['productos'] as $producto) {
+                    $devolucion = $base->productos->updateOne(
+                        ['_id' => $producto['id']],
+                        ['$inc' => ['stock' => $producto['cantidad']]],
+                        $opciones
+                    );
+                    if ($devolucion->getMatchedCount() === 0) {
+                        throw new RuntimeException('No se pudo devolver el stock del producto.');
+                    }
+                }
+            }
+
+            $base->pedidos->updateOne(['_id' => $pedido['_id']], ['$set' => ['estado' => $estado]], $opciones);
+            $codigo = 200;
+            $mensaje = 'Pedido aceptado.';
+            if ($estado === 'rechazado') {
+                $mensaje = 'Pedido rechazado. Las unidades se han devuelto al stock.';
+            }
+        });
+
+        $sesion->endSession();
+        responderAdmin($codigo, ['mensaje' => $mensaje]);
+    }
+
+    $pedidos = $base->pedidos->find(['estado' => 'pendiente'], ['sort' => ['fecha' => -1, '_id' => -1]]);
     $lista = [];
     foreach ($pedidos as $pedido) {
         $productos = [];

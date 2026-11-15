@@ -15,24 +15,50 @@ if (!isset($_SESSION['id'])) {
     responderPedido(401, ['mensaje' => 'Inicia sesion para realizar un pedido.']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Allow: POST');
-    responderPedido(405, ['mensaje' => 'Utiliza el boton Confirmar pedido del carrito.']);
+$metodo = $_SERVER['REQUEST_METHOD'];
+if ($metodo !== 'GET' && $metodo !== 'POST') {
+    header('Allow: GET, POST');
+    responderPedido(405, ['mensaje' => 'Metodo no permitido.']);
 }
 
-$origen = $_SERVER['HTTP_ORIGIN'] ?? '';
-$protocolo = 'http://';
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-    $protocolo = 'https://';
-}
-if ($origen !== '' && $origen !== $protocolo . ($_SERVER['HTTP_HOST'] ?? '')) {
-    responderPedido(403, ['mensaje' => 'La peticion debe realizarse desde VEXORA.']);
+if ($metodo === 'POST') {
+    $origen = $_SERVER['HTTP_ORIGIN'] ?? '';
+    $protocolo = 'http://';
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        $protocolo = 'https://';
+    }
+    if ($origen !== '' && $origen !== $protocolo . ($_SERVER['HTTP_HOST'] ?? '')) {
+        responderPedido(403, ['mensaje' => 'La peticion debe realizarse desde VEXORA.']);
+    }
 }
 
 try {
     require_once __DIR__ . '/conexion.php';
     $base = conectarMongoDB();
     $usuario = $_SESSION['id'];
+    if ($metodo === 'GET') {
+        // Mostrar solo los pedidos del usuario que tiene la sesion abierta
+        $pedidos = $base->pedidos->find(['usuario' => $usuario], ['sort' => ['fecha' => -1, '_id' => -1]]);
+        $lista = [];
+        foreach ($pedidos as $pedido) {
+            $productos = [];
+            foreach ($pedido['productos'] as $producto) {
+                $productos[] = [
+                    'nombre' => $producto['nombre'],
+                    'cantidad' => $producto['cantidad'],
+                    'precio' => $producto['precio']
+                ];
+            }
+            $lista[] = [
+                'id' => (string) $pedido['_id'],
+                'fecha' => $pedido['fecha']->toDateTime()->format('c'),
+                'productos' => $productos,
+                'total' => $pedido['total'],
+                'estado' => $pedido['estado']
+            ];
+        }
+        responderPedido(200, $lista);
+    }
     $sesion = $base->getManager()->startSession();
     // Con & podemos recoger el resultado fuera de la transaccion
     $resultado = [];
@@ -95,5 +121,5 @@ try {
     $sesion->endSession();
     responderPedido($codigo, $resultado);
 } catch (Throwable $error) {
-    responderPedido(500, ['mensaje' => 'No se pudo confirmar el pedido. Intentalo mas tarde.']);
+    responderPedido(500, ['mensaje' => 'No se pudo completar la operacion con los pedidos. Intentalo mas tarde.']);
 }
