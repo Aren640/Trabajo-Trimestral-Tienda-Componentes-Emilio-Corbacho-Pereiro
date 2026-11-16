@@ -5,28 +5,75 @@ if (!lista) {
     lista = destacados;
 }
 const mensaje = document.getElementById('mensajeProductos');
+const filtros = document.getElementById('filtrosProductos');
+let botonFiltrar = null;
 let ruta = 'php/productos.php';
+let cargaProductos = 0;
 
 if (destacados) {
     ruta += '?destacados=1';
 }
 
+if (filtros) {
+    botonFiltrar = filtros.querySelector('button[type="submit"]');
+    ruta += '?orden=recientes';
+    const minimo = document.getElementById('precioMinimo');
+    const maximo = document.getElementById('precioMaximo');
+
+    minimo.addEventListener('input', function () {
+        maximo.setCustomValidity('');
+    });
+    maximo.addEventListener('input', function () {
+        maximo.setCustomValidity('');
+    });
+
+    filtros.addEventListener('submit', function (evento) {
+        evento.preventDefault();
+        maximo.setCustomValidity('');
+        if (minimo.value !== '' && maximo.value !== '' && Number(minimo.value) > Number(maximo.value)) {
+            maximo.setCustomValidity('El precio maximo debe ser igual o mayor que el minimo.');
+            maximo.reportValidity();
+            return;
+        }
+        const datos = new FormData(filtros);
+        const parametros = new URLSearchParams(datos);
+        ruta = 'php/productos.php?' + parametros;
+        cargarProductos();
+    });
+
+    document.getElementById('ordenProductos').addEventListener('change', function () {
+        filtros.requestSubmit();
+    });
+}
+
 async function cargarProductos() {
+    cargaProductos++;
+    const carga = cargaProductos;
+    if (botonFiltrar) {
+        botonFiltrar.disabled = true;
+    }
     mensaje.textContent = 'Cargando productos...';
     mensaje.classList.remove('d-none', 'text-danger');
+    lista.replaceChildren();
 
     try {
         const respuesta = await fetch(ruta);
         const productos = await respuesta.json();
+        // Ignorar respuestas antiguas si ya se han cambiado los filtros
+        if (carga !== cargaProductos) {
+            return;
+        }
 
         if (!respuesta.ok) {
             throw new Error(productos.mensaje);
         }
 
-        lista.innerHTML = '';
-
         if (productos.length === 0) {
-            mensaje.textContent = destacados ? 'No hay productos destacados.' : 'No hay productos disponibles.';
+            if (destacados) {
+                mensaje.textContent = 'No hay productos destacados.';
+            } else {
+                mensaje.textContent = 'No hay productos que coincidan con los filtros.';
+            }
             return;
         }
 
@@ -76,8 +123,14 @@ async function cargarProductos() {
 
         mensaje.classList.add('d-none');
     } catch (error) {
-        mensaje.textContent = 'No se pudieron cargar los productos. Intentalo mas tarde.';
-        mensaje.classList.add('text-danger');
+        if (carga === cargaProductos) {
+            mensaje.textContent = 'No se pudieron cargar los productos. Intentalo mas tarde.';
+            mensaje.classList.add('text-danger');
+        }
+    } finally {
+        if (botonFiltrar && carga === cargaProductos) {
+            botonFiltrar.disabled = false;
+        }
     }
 }
 

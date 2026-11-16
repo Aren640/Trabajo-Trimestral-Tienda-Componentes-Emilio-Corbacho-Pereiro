@@ -61,21 +61,21 @@
         </section>
 
         <div class="container py-4">
-            <form class="bg-white border rounded-3 p-3 mb-4" aria-label="Filtros de productos">
-                <fieldset disabled>
+            <form class="bg-white border rounded-3 p-3 mb-4" id="filtrosProductos" aria-label="Filtros de productos">
+                <fieldset>
                     <legend class="visually-hidden">Filtrar productos</legend>
                     <div class="row g-3 align-items-end">
                         <div class="col-12 col-md-6 col-xxl-3">
                             <label class="form-label small fw-semibold" for="buscarProductos">Buscar producto</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
-                                <input class="form-control" id="buscarProductos" type="search" placeholder="Buscar productos...">
+                                <input class="form-control" id="buscarProductos" name="buscar" type="search" maxlength="120" placeholder="Buscar productos...">
                             </div>
                         </div>
                         <div class="col-12 col-md-6 col-xxl-2">
                             <label class="form-label small fw-semibold" for="categoria">Categoria</label>
-                            <select class="form-select" id="categoria">
-                                <option selected>Todas las categorias</option>
+                            <select class="form-select" id="categoria" name="categoria">
+                                <option value="" selected>Todas las categorias</option>
                                 <option>Videojuegos</option>
                                 <option>Consolas</option>
                                 <option>Accesorios</option>
@@ -90,32 +90,32 @@
                             <div class="row g-2">
                                 <div class="col-6">
                                     <label class="visually-hidden" for="precioMinimo">Precio minimo</label>
-                                    <input class="form-control" id="precioMinimo" type="number" min="0" step="0.01" placeholder="Min">
+                                    <input class="form-control" id="precioMinimo" name="minimo" type="number" min="0" step="0.01" placeholder="Min">
                                 </div>
                                 <div class="col-6">
                                     <label class="visually-hidden" for="precioMaximo">Precio maximo</label>
-                                    <input class="form-control" id="precioMaximo" type="number" min="0" step="0.01" placeholder="Max">
+                                    <input class="form-control" id="precioMaximo" name="maximo" type="number" min="0" step="0.01" placeholder="Max">
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-xxl-2">
                             <p class="form-label small fw-semibold">Disponibilidad</p>
                             <div class="form-check form-switch mb-2">
-                                <input class="form-check-input" id="soloStock" type="checkbox" role="switch">
+                                <input class="form-check-input" id="soloStock" name="stock" type="checkbox" value="1" role="switch">
                                 <label class="form-check-label small" for="soloStock">Solo con stock</label>
                             </div>
                         </div>
                         <div class="col-12 col-sm-8 col-xxl-2">
                             <label class="form-label small fw-semibold" for="ordenProductos">Ordenar por</label>
-                            <select class="form-select" id="ordenProductos">
-                                <option selected>Mas recientes</option>
-                                <option>Precio de menor a mayor</option>
-                                <option>Precio de mayor a menor</option>
-                                <option>Nombre A-Z</option>
+                            <select class="form-select" id="ordenProductos" name="orden">
+                                <option value="recientes" selected>Mas recientes</option>
+                                <option value="precio-asc">Precio de menor a mayor</option>
+                                <option value="precio-desc">Precio de mayor a menor</option>
+                                <option value="nombre">Nombre A-Z</option>
                             </select>
                         </div>
                         <div class="col-12 col-sm-4 col-xxl-1">
-                            <button class="btn btn-primary w-100 px-2" type="button"><i class="bi bi-funnel" aria-hidden="true"></i> Filtrar</button>
+                            <button class="btn btn-primary w-100 px-2" type="submit"><i class="bi bi-funnel" aria-hidden="true"></i> Filtrar</button>
                         </div>
                     </div>
                 </fieldset>
