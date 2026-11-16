@@ -46,15 +46,17 @@ if (filtros) {
     });
 }
 
-async function cargarProductos() {
+async function cargarProductos(silencioso = false) {
     cargaProductos++;
     const carga = cargaProductos;
-    if (botonFiltrar) {
-        botonFiltrar.disabled = true;
+    if (!silencioso) {
+        if (botonFiltrar) {
+            botonFiltrar.disabled = true;
+        }
+        mensaje.textContent = 'Cargando productos...';
+        mensaje.classList.remove('d-none', 'text-danger');
+        lista.replaceChildren();
     }
-    mensaje.textContent = 'Cargando productos...';
-    mensaje.classList.remove('d-none', 'text-danger');
-    lista.replaceChildren();
 
     try {
         const respuesta = await fetch(ruta);
@@ -69,17 +71,45 @@ async function cargarProductos() {
         }
 
         if (productos.length === 0) {
+            lista.replaceChildren();
             if (destacados) {
                 mensaje.textContent = 'No hay productos destacados.';
             } else {
                 mensaje.textContent = 'No hay productos que coincidan con los filtros.';
             }
+            mensaje.classList.remove('d-none', 'text-danger');
             return;
         }
 
+        // Si son los mismos productos actualizar el stock sin rehacer las tarjetas
+        const columnas = lista.children;
+        let mismosProductos = productos.length === columnas.length;
+        if (mismosProductos) {
+            for (let i = 0; i < productos.length; i++) {
+                if (productos[i].id !== columnas[i].dataset.id) {
+                    mismosProductos = false;
+                    break;
+                }
+            }
+        }
+        if (silencioso && mismosProductos) {
+            for (let i = 0; i < productos.length; i++) {
+                const stock = columnas[i].querySelector('.stock-producto');
+                if (productos[i].stock > 0) {
+                    stock.textContent = 'En stock';
+                } else {
+                    stock.textContent = 'Sin stock';
+                }
+                columnas[i].querySelector('.anadir-carrito').disabled = productos[i].stock <= 0;
+            }
+            return;
+        }
+
+        const tarjetas = document.createDocumentFragment();
         for (const producto of productos) {
             const columna = document.createElement('div');
             columna.className = 'col';
+            columna.dataset.id = producto.id;
             columna.innerHTML = `
                 <article class="card h-100">
                     <a class="imagen-enlace d-block"><img class="card-img-top imagen-producto object-fit-contain p-3" alt=""></a>
@@ -118,12 +148,13 @@ async function cargarProductos() {
             boton.addEventListener('click', function () {
                 cambiarCarrito('anadir', producto.id);
             });
-            lista.appendChild(columna);
+            tarjetas.appendChild(columna);
         }
 
+        lista.replaceChildren(tarjetas);
         mensaje.classList.add('d-none');
     } catch (error) {
-        if (carga === cargaProductos) {
+        if (!silencioso && carga === cargaProductos) {
             mensaje.textContent = 'No se pudieron cargar los productos. Intentalo mas tarde.';
             mensaje.classList.add('text-danger');
         }
@@ -135,3 +166,9 @@ async function cargarProductos() {
 }
 
 cargarProductos();
+
+setInterval(function () {
+    if (!carritoOcupado && (!botonFiltrar || !botonFiltrar.disabled)) {
+        cargarProductos(true);
+    }
+}, 5000);

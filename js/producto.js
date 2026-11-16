@@ -24,8 +24,10 @@ sumar.addEventListener('click', function () {
 
 cantidad.addEventListener('input', actualizarCantidad);
 
-async function cargarProducto() {
-    botonCarrito.disabled = true;
+async function cargarProducto(silencioso = false) {
+    if (!silencioso) {
+        botonCarrito.disabled = true;
+    }
     const id = new URLSearchParams(window.location.search).get('id');
 
     if (!id) {
@@ -36,8 +38,14 @@ async function cargarProducto() {
     try {
         const respuesta = await fetch('php/productos.php?id=' + encodeURIComponent(id));
         const producto = await respuesta.json();
+        if (silencioso && carritoOcupado) {
+            return;
+        }
 
         if (!respuesta.ok) {
+            if (silencioso && respuesta.status !== 404) {
+                return;
+            }
             ficha.classList.add('d-none');
             mensaje.classList.remove('d-none');
             mensaje.textContent = producto.mensaje;
@@ -45,11 +53,13 @@ async function cargarProducto() {
             return;
         }
 
-        const imagen = document.createElement('img');
-        imagen.src = producto.imagen;
-        imagen.alt = producto.nombre;
-        imagen.className = 'imagen-ficha d-block w-100 object-fit-contain p-4';
-        document.getElementById('imagenProducto').replaceChildren(imagen);
+        if (!silencioso || !document.querySelector('#imagenProducto img')) {
+            const imagen = document.createElement('img');
+            imagen.src = producto.imagen;
+            imagen.alt = producto.nombre;
+            imagen.className = 'imagen-ficha d-block w-100 object-fit-contain p-4';
+            document.getElementById('imagenProducto').replaceChildren(imagen);
+        }
         document.getElementById('nombreProducto').textContent = producto.nombre;
         document.getElementById('migaProducto').textContent = producto.nombre;
         document.getElementById('categoriaProducto').textContent = producto.categoria;
@@ -64,9 +74,11 @@ async function cargarProducto() {
             stock.textContent = 'Sin stock';
         }
         cantidad.max = producto.stock;
-        cantidad.value = 0;
-        if (producto.stock > 0) {
-            cantidad.value = 1;
+        if (!silencioso || (cantidad.disabled && producto.stock > 0)) {
+            cantidad.value = 0;
+            if (producto.stock > 0) {
+                cantidad.value = 1;
+            }
         }
         cantidad.disabled = producto.stock <= 0;
         actualizarCantidad();
@@ -74,10 +86,12 @@ async function cargarProducto() {
         mensaje.classList.add('d-none');
         ficha.classList.remove('d-none');
     } catch (error) {
-        ficha.classList.add('d-none');
-        mensaje.classList.remove('d-none');
-        mensaje.textContent = 'No se pudo cargar el producto. Intentalo mas tarde.';
-        mensaje.classList.add('text-danger');
+        if (!silencioso) {
+            ficha.classList.add('d-none');
+            mensaje.classList.remove('d-none');
+            mensaje.textContent = 'No se pudo cargar el producto. Intentalo mas tarde.';
+            mensaje.classList.add('text-danger');
+        }
     }
 }
 
@@ -89,3 +103,10 @@ function actualizarCantidad() {
 }
 
 cargarProducto();
+
+// Revisar el stock sin cambiar la cantidad que se esta escribiendo
+setInterval(function () {
+    if (!carritoOcupado) {
+        cargarProducto(true);
+    }
+}, 5000);

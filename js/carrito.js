@@ -10,10 +10,14 @@ function mostrarMensajeCarrito(texto, tipo) {
     }
 }
 
-async function cargarCarrito() {
+async function cargarCarrito(silencioso = false) {
+    const lista = document.getElementById('productosCarrito');
     try {
         const respuesta = await fetch('php/carrito.php');
         const datos = await respuesta.json();
+        if (silencioso && carritoOcupado) {
+            return;
+        }
         if (!respuesta.ok && respuesta.status !== 401) {
             throw new Error('No se pudo cargar el carrito.');
         }
@@ -29,11 +33,33 @@ async function cargarCarrito() {
             contador.closest('a').setAttribute('aria-label', 'Ver carrito, ' + unidades + ' unidades');
         }
 
-        const lista = document.getElementById('productosCarrito');
         if (!lista) {
             return;
         }
 
+        // Si el carrito no ha cambiado actualizar el stock sin rehacer las tarjetas
+        const tarjetas = lista.children;
+        let mismosProductos = productos.length === tarjetas.length;
+        if (mismosProductos) {
+            for (let i = 0; i < productos.length; i++) {
+                const id = tarjetas[i].dataset.id;
+                const cantidad = Number(tarjetas[i].dataset.cantidad);
+                if (productos[i].id !== id || productos[i].cantidad !== cantidad) {
+                    mismosProductos = false;
+                    break;
+                }
+            }
+        }
+        if (silencioso && respuesta.ok && productos.length > 0 && mismosProductos) {
+            for (let i = 0; i < productos.length; i++) {
+                tarjetas[i].querySelector('.cantidad').max = productos[i].cantidad + productos[i].disponibles;
+                tarjetas[i].querySelector('.sumar').disabled = productos[i].disponibles <= 0;
+            }
+            return;
+        }
+        if (silencioso && lista.contains(document.activeElement) && document.activeElement.tagName === 'INPUT') {
+            return;
+        }
         lista.replaceChildren();
         document.getElementById('carritoVacio').classList.toggle('d-none', productos.length > 0);
         document.getElementById('resumenCarrito').classList.toggle('d-none', productos.length === 0);
@@ -48,6 +74,8 @@ async function cargarCarrito() {
         for (const producto of productos) {
             const tarjeta = document.createElement('article');
             tarjeta.className = 'card mb-3';
+            tarjeta.dataset.id = producto.id;
+            tarjeta.dataset.cantidad = producto.cantidad;
             tarjeta.innerHTML = `
                 <div class="card-body row g-3 align-items-center">
                     <div class="col-4 col-md-2"><div class="ratio ratio-1x1"><img class="object-fit-contain" alt=""></div></div>
@@ -96,6 +124,8 @@ async function cargarCarrito() {
             campo.addEventListener('change', function () {
                 if (campo.reportValidity()) {
                     cambiarCarrito('cambiar', producto.id, campo.value);
+                } else {
+                    campo.value = producto.cantidad;
                 }
             });
             tarjeta.querySelector('.quitar').addEventListener('click', function () {
@@ -106,9 +136,18 @@ async function cargarCarrito() {
 
         document.getElementById('totalCarrito').textContent = (datos.total || 0).toLocaleString('es-ES', {style: 'currency', currency: 'EUR'});
     } catch (error) {
-        mostrarMensajeCarrito('No se pudo cargar el carrito. Recarga la pagina.', 'danger');
+        if (!silencioso) {
+            mostrarMensajeCarrito('No se pudo cargar el carrito. Recarga la pagina.', 'danger');
+        }
     }
 }
+
+// Revisar el stock cada cinco segundos sin borrar la cantidad escrita
+setInterval(function () {
+    if (!carritoOcupado) {
+        cargarCarrito(true);
+    }
+}, 5000);
 
 async function cambiarCarrito(accion, id, cantidad = 1) {
     if (carritoOcupado) {
@@ -116,7 +155,10 @@ async function cambiarCarrito(accion, id, cantidad = 1) {
     }
     carritoOcupado = true;
     const botones = document.querySelectorAll('#productosCarrito button, #productosCarrito input, .anadir-carrito, #botonCarrito, #confirmarPedido');
+    // Al terminar dejar desactivados los botones que ya lo estaban
+    const desactivados = [];
     for (const boton of botones) {
+        desactivados.push(boton.disabled);
         boton.disabled = true;
     }
 
@@ -147,8 +189,8 @@ async function cambiarCarrito(accion, id, cantidad = 1) {
         mostrarMensajeCarrito('No se pudo actualizar el carrito. Revisa el carrito antes de volver a intentarlo.', 'danger');
     } finally {
         carritoOcupado = false;
-        for (const boton of botones) {
-            boton.disabled = false;
+        for (let i = 0; i < botones.length; i++) {
+            botones[i].disabled = desactivados[i];
         }
         if (typeof actualizarCantidad === 'function') {
             actualizarCantidad();
@@ -165,7 +207,10 @@ if (confirmarPedido) {
         }
         carritoOcupado = true;
         const controles = document.querySelectorAll('#productosCarrito button, #productosCarrito input, #confirmarPedido');
+        // Al terminar dejar desactivados los botones que ya lo estaban
+        const desactivados = [];
         for (const control of controles) {
+            desactivados.push(control.disabled);
             control.disabled = true;
         }
         confirmarPedido.textContent = 'Enviando pedido...';
@@ -186,8 +231,8 @@ if (confirmarPedido) {
             mostrarMensajeCarrito('No se pudo comprobar el pedido. Recarga la pagina para revisar tu carrito antes de volver a intentarlo.', 'danger');
         } finally {
             carritoOcupado = false;
-            for (const control of controles) {
-                control.disabled = false;
+            for (let i = 0; i < controles.length; i++) {
+                controles[i].disabled = desactivados[i];
             }
             confirmarPedido.textContent = 'Confirmar pedido';
         }
