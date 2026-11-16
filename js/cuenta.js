@@ -66,3 +66,42 @@ async function cargarHistorial() {
         actualizarHistorial.disabled = false;
     }
 }
+
+const formularioClave = document.getElementById('formularioClave');
+const mensajeClave = document.getElementById('mensajeClave');
+
+formularioClave.addEventListener('submit', async function (evento) {
+    evento.preventDefault();
+    const boton = formularioClave.querySelector('button[type="submit"]');
+    if (document.getElementById('claveNueva').value !== document.getElementById('repetirClave').value) {
+    mensajeClave.textContent = 'Las contraseñas nuevas no coinciden.';
+        mensajeClave.className = 'alert alert-danger';
+        return;
+    }
+    boton.disabled = true;
+
+    try {
+        const respuesta = await fetch('php/clave.php', {
+            method: 'POST',
+            body: new FormData(formularioClave)
+        });
+        const datos = await respuesta.json();
+        mensajeClave.textContent = datos.mensaje;
+        if (respuesta.ok) {
+            mensajeClave.className = 'alert alert-success';
+            formularioClave.reset();
+        } else {
+            mensajeClave.className = 'alert alert-danger';
+        }
+    } catch (error) {
+        mensajeClave.textContent = 'No se pudo comprobar el cambio. Vuelve a iniciar sesion antes de intentarlo de nuevo.';
+        mensajeClave.className = 'alert alert-danger';
+    } finally {
+        boton.disabled = false;
+    }
+});
+
+document.getElementById('modalClave').addEventListener('hidden.bs.modal', function () {
+ formularioClave.reset();
+    mensajeClave.classList.add('d-none');
+});

@@ -53,7 +53,7 @@
                     <form action="php/logout.php" method="post">
                         <button class="btn btn-primary" type="submit">Cerrar sesion</button>
                     </form>
-                    <button class="btn btn-outline-secondary" type="button" disabled>Restablecer contraseña</button>
+                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalClave">Restablecer contraseña</button>
                 </div>
             </div>
         </div>
@@ -66,6 +66,36 @@
             <div id="historialPedidos"></div>
         </section>
     </main>
+
+    <div class="modal fade" id="modalClave" tabindex="-1" aria-labelledby="tituloClave" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <form class="modal-content" id="formularioClave" action="php/clave.php" method="post">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloClave">Restablecer contraseña</h2>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="claveActual">Contraseña actual</label>
+                        <input class="form-control" id="claveActual" name="claveActual" type="password" autocomplete="current-password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="claveNueva">Nueva contraseña</label>
+                        <input class="form-control" id="claveNueva" name="claveNueva" type="password" autocomplete="new-password" minlength="8" maxlength="40" aria-describedby="ayudaClaveNueva" required>
+                        <div class="form-text" id="ayudaClaveNueva">Entre 8 y 40 caracteres.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="repetirClave">Confirmar nueva contraseña</label>
+                        <input class="form-control" id="repetirClave" name="confirmarClave" type="password" autocomplete="new-password" minlength="8" maxlength="40" required>
+                    </div>
+                    <p class="alert d-none" id="mensajeClave" role="status"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Guardar contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer class="pie-pagina pt-4 pb-3" data-bs-theme="dark">
         <div class="container">
