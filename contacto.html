@@ -63,14 +63,14 @@
                 <div class="col-lg-7">
                     <section class="bg-white border rounded-3 p-4 h-100" aria-labelledby="tituloFormulario">
                         <h2 class="h4 fw-bold mb-4" id="tituloFormulario">Envianos un mensaje</h2>
-                        <form id="formularioContacto" aria-labelledby="tituloFormulario">
+                        <form id="formularioContacto" action="php/contacto.php" method="post" aria-labelledby="tituloFormulario">
                             <div class="mb-3">
                                 <label class="form-label" for="nombreCompleto">Nombre completo</label>
-                                <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" required>
+                                <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" maxlength="120" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="correoContacto">Correo electronico</label>
-                                <input class="form-control" type="email" id="correoContacto" name="correo" autocomplete="email" required>
+                                <input class="form-control" type="email" id="correoContacto" name="correo" autocomplete="email" maxlength="254" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="asuntoContacto">Asunto</label>
@@ -84,10 +84,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="mensajeContacto">Mensaje</label>
-                                <textarea class="form-control" id="mensajeContacto" name="mensaje" rows="5" required></textarea>
+                                <textarea class="form-control" id="mensajeContacto" name="mensaje" rows="5" maxlength="5000" required></textarea>
                             </div>
-                            <!-- Envio desactivado hasta implementar el procesamiento del formulario -->
-                            <button class="btn btn-primary" type="submit" disabled>Enviar mensaje</button>
+                            <p class="alert d-none" id="resultadoContacto" role="status"></p>
+                            <button class="btn btn-primary" type="submit">Enviar mensaje</button>
                         </form>
                     </section>
                 </div>
@@ -268,5 +268,6 @@
     <script src="js/script.js"></script>
     <script src="js/carrito.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/contacto.js"></script>
 </body>
 </html>
